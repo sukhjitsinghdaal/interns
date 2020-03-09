@@ -1,0 +1,15 @@
+*.pyc
+*.DS_Store
+*db.sqlite3
+**/**/migrations/0*
+*media
+*static_root
+static/*
+!*static/img*
+!*static/images*
+.env
+.vscode
+**/**/*.pyc
+*venv
+*.log
+**/**/*.json
