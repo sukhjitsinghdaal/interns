@@ -34,35 +34,35 @@ class UserViewSet(viewsets.ViewSet):
             context = {'Success': False,"message":"Failed to create User","error":error }
             return Response(context, status=status.HTTP_400_BAD_REQUEST)
 
-    @action(detail=False ,methods = ['post'],name ="user-login" , permission_classes = [])
-    def login(self,request):
-        try:
-            # import ipdb; ipdb.set_trace()
-            email = request.data['email']
-            password = request.data['password']
-            if not email and not password:
-                raise("User or password missing")
-            user = authenticate(username=email, password=password)
+    # @action(detail=False ,methods = ['post'],name ="user-login" , permission_classes = [])
+    # def login(self,request):
+    #     try:
+    #         # import ipdb; ipdb.set_trace()
+    #         email = request.data['email']
+    #         password = request.data['password']
+    #         if not email and not password:
+    #             raise("User or password missing")
+    #         user = authenticate(username=email, password=password)
             
-            if user is not None:
-                try:
-                    if user.is_active:
-                        # import ipdb; ipdb.set_trace()
-                        user_details = ProjectUser.objects.get(email=user.email)
-                        update_last_login(None, user_details)
-                except:
-                    message = 'You are not intended to login into this system.'
-                    context = {'success': False, 'message': message}
-                    return Response(context, status.HTTP_403_FORBIDDEN)
-                payload = jwt_payload_handler(user)
-                token = jwt_encode_handler(payload)
-                # expiration = datetime.utcnow(
-                # ) + settings.JWT_AUTH['JWT_EXPIRATION_DELTA']
-                # expiration_epoch = expiration.timestamp()
-                serializer = self.serializer_class(user_details, fields=('id', 'email'))
-                context = {'Success': True,"message":"login success" , "token":token,"token_type":"Bearer","data":serializer.data}
-                return Response(context, status=status.HTTP_200_OK)
-        except Exception as error:
-            context = {'Success': False,"message":"Failed to login","error":error }
-            return Response(context, status=status.HTTP_400_BAD_REQUEST)
+    #         if user is not None:
+    #             try:
+    #                 if user.is_active:
+    #                     # import ipdb; ipdb.set_trace()
+    #                     user_details = ProjectUser.objects.get(email=user.email)
+    #                     update_last_login(None, user_details)
+    #             except:
+    #                 message = 'You are not intended to login into this system.'
+    #                 context = {'success': False, 'message': message}
+    #                 return Response(context, status.HTTP_403_FORBIDDEN)
+    #             payload = jwt_payload_handler(user)
+    #             token = jwt_encode_handler(payload)
+    #             # expiration = datetime.utcnow(
+    #             # ) + settings.JWT_AUTH['JWT_EXPIRATION_DELTA']
+    #             # expiration_epoch = expiration.timestamp()
+    #             serializer = self.serializer_class(user_details, fields=('id', 'email'))
+    #             context = {'Success': True,"message":"login success" , "token":token,"token_type":"Bearer","data":serializer.data}
+    #             return Response(context, status=status.HTTP_200_OK)
+    #     except Exception as error:
+    #         context = {'Success': False,"message":"Failed to login","error":error }
+    #         return Response(context, status=status.HTTP_400_BAD_REQUEST)
     
