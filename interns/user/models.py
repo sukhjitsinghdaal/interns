@@ -54,18 +54,32 @@ class User(AbstractBaseUser):
         "Does the user have permissions to view the app `app_label`?"
         # Simplest possible answer: Yes, always
         return True
+    # @property
+    # def is_staff(self):
+    #     "Is the user a member of staff?"
+    #     # Simplest possible answer: All admins are staff
+    #     return self.is_admin
 
 
 
 class ProjectUser(User):
-    name  = models.CharField(max_length = 255)
+    user_role = models.CharField(max_length=255,null=True,blank=True)
+    email_varified = models.BooleanField(default = False)
+   
+from Meta.models import Qualification,QualificationType
+
+class Customer(models.Model):
+    customer_id = models.OneToOneField(ProjectUser, on_delete = models.CASCADE)
+    first_name  = models.CharField(max_length = 200,blank = True,null = False,verbose_name = 'First Name')
+    last_name = models.CharField(max_length = 255,blank = True,null = False,verbose_name = 'Last Name')
     date_of_birth = models.DateTimeField(blank=True, null=True)
     gender  = models.CharField(max_length=55,default = "male")
     profile_image = models.ImageField(upload_to = 'profile_pic_folder',default = '',blank=True,null=True )
-    first_name  = models.CharField(max_length = 200,blank = True,null = False,verbose_name = 'First Name')
-    last_name = models.CharField(max_length = 255,blank = True,null = False,verbose_name = 'Last Name')
-    email_varified = models.BooleanField(default = False)
     phone = models.CharField(max_length = 16)
+    batch = models.CharField(max_length=255,null=True,blank=True)
+    qualification = models.ForeignKey(Qualification, on_delete=models.CASCADE,null=True,blank=True)
+    qualification_type_id = models.ForeignKey(QualificationType,on_delete=models.CASCADE,null=True,blank=True)   
+    
     
 
 

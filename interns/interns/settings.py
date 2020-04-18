@@ -18,6 +18,12 @@ env = environ.Env()
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
+CORS_ORIGIN_WHITELIST = [
+    "https://example.com",
+    "https://sub.example.com",
+    "http://localhost:3000",
+    "http://127.0.0.1:9000"
+]
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
@@ -40,7 +46,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     "user",
+    "Meta",
+    "ComapanyProfile",
+    "InstituteProfile",
     "rest_framework",
+    "corsheaders",
+
 ]
 
 MIDDLEWARE = [
@@ -51,6 +62,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = 'interns.urls'
@@ -126,3 +139,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+
+
+AUTH_USER_MODEL = 'user.User'
+
+
+

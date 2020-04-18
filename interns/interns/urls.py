@@ -19,4 +19,6 @@ from django.urls import path,include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/',include("user.urls"),name="users"),
+    path('api/meta/',include("Meta.urls"),name="Meta"),
+    path('api/body/',include("ComapanyProfile.urls"),name="Company"),
 ]
